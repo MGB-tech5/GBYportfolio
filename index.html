@@ -3,9 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>간단한 웹 테스트</title>
+    <title>시스템 기획자 포트폴리오</title>
+    <style>
+        /* =========================================
+           1. 전역 설정 (PS4 다크 & 블루 테마)
+           ========================================= */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #00122e 0%, #003b73 100%);
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* =========================================
+           2. 인트로 (로딩 및 타이틀 화면)
+           ========================================= */
+        #intro-page {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #020111 0%, #152a4a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #intro-page h1 { font-size: 3rem; letter-spacing: 5px; text-shadow: 0 0 20px rgba(0, 162, 255, 0.5); margin-bottom: 40px; }
+
+        .profile-box {
+            width: 250px; height: 250px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center;
+            color: #ccc; font-weight: bold; text-align: center;
+            margin-bottom: 30px; cursor: pointer; transition: all 0.3s ease;
+        }
+        
+        .profile-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .profile-box.ready { color: #fff; animation: ps4-pulse 2s infinite; }
+
+        @keyframes ps4-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 195, 255, 0.4); border-color: rgba(0, 195, 255, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(0, 195, 255, 0); border-color: rgba(255, 255, 255, 0.2); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 195, 255, 0); border-color: rgba(255, 255, 255, 0.2); }
+        }
+
+        #loading-text { font-size: 1.2rem; color: #aaa; text-align: center; letter-spacing: 2px; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* =========================================
+           3. 메인 포트폴리오 래퍼
+           ========================================= */
+        #portfolio-main {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            position: relative; /* 자식 요소 띄우기를 위한 기준 */
+        }
+
+        /* =========================================
+           4. 상단 네비게이션 (스크롤 연동 스마트 바)
+           ========================================= */
+        #ps4-nav {
+            position: absolute; /* 본문과 상관없이 화면 위에 떠 있도록 변경 */
+            top: 0; left: 0; width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 30px 0 20px 0;
+            display: flex; align-items: center; overflow-x: auto; white-space: nowrap;
+            z-index: 1000;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* 부드럽게 오르내리는 애니메이션 */
+            box-sizing: border-box;
+        }
+
+        /* 휠을 내렸을 때 위로 숨는 클래스 (타이틀만 남기고 올림) */
+        #ps4-nav.minimized {
+            transform: translateY(-155px); /* 값 조절로 타이틀 노출 정도 변경 가능 */
+        }
+
+        #ps4-nav::-webkit-scrollbar { display: none; }
+        
+        .nav-item {
+            position: relative; width: 160px; height: 160px; margin: 0 10px; display: block;
+            background-color: #111; border: 2px solid transparent; text-decoration: none;
+            cursor: pointer; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            /* 스케일업 될 때 타이틀 위치가 어긋나지 않도록 밑변을 기준으로 커지게 함 */
+            transform-origin: bottom center; 
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .nav-item:first-child { margin-left: 50px; }
+
+        .nav-item.active {
+            transform: scale(1.15); border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); z-index: 10;
+        }
+
+        /* 꽉 차는 배경 이미지 */
+        .nav-item img {
+            width: 100% !important; height: 100% !important; object-fit: cover !important;
+            position: absolute; top: 0; left: 0; z-index: 1; margin: 0 !important;
+            transition: opacity 0.3s ease;
+        }
+        .nav-item:not(.active) img { opacity: 0.5; }
+
+        .nav-item .tag { position: absolute; top: 0; left: 0; background-color: #000; color: #fff; font-size: 0.75rem; padding: 4px 8px; z-index: 2; font-weight: bold; }
+        .nav-item .title { position: absolute; bottom: 0; left: 0; width: 100%; background-color: rgba(0,0,0,0.8); color: #fff; font-size: 0.9rem; text-align: center; padding: 8px 0; z-index: 2; box-sizing: border-box; font-weight: bold; }
+
+        /* =========================================
+           5. 본문 영역 & 커스텀 스크롤바
+           ========================================= */
+        #content-area {
+            width: 100%; height: 100vh;
+            overflow-y: auto; overflow-x: hidden;
+            /* 네비게이션 바가 공중에 떠 있으므로, 본문이 안 가려지게 위쪽 여백 넉넉히 확보 */
+            padding-top: 240px; 
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        #content-area::-webkit-scrollbar { width: 8px; }
+        #content-area::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+        #content-area::-webkit-scrollbar-thumb { background: #0078d7; border-radius: 4px; }
+        #content-area::-webkit-scrollbar-thumb:hover { background: #00a2ff; }
+
+        .content-section {
+            display: none; padding: 0px 30px 100px; max-width: 900px; margin: 0 auto;
+            min-height: 100%; color: #e0e0e0;
+        }
+
+        .content-section.active { display: block; animation: slideInRight 0.4s ease-out forwards; }
+
+        .content-section h2 { font-size: 2rem; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 10px; margin-bottom: 20px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+
+        .mock-content { height: 1500px; border: 1px dashed rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: #888; font-size: 1.2rem; background-color: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; }
+    </style>
 </head>
 <body>
-    <h1>안녕하세요! 웹 테스트 중입니다.</h1>
+
+    <div id="intro-page">
+        <h1>PORTFOLIO</h1>
+        <div class="profile-box" id="start-btn">
+             <img src="images/profile.png" alt="내 프로필 이미지">
+        </div>
+        <div id="loading-text">시스템 부팅 중...</div>
+    </div>
+
+    <div id="portfolio-main">
+        
+        <nav id="ps4-nav">
+            <a href="#resume" class="nav-item active">
+                <img src="images/icon1.png" alt="">
+                <span class="tag"></span>
+                <span class="title">이력 및 자기소개</span>
+            </a>
+            <a href="#cover-letter" class="nav-item">
+                <img src="images/icon2.png" alt="">
+                <span class="tag"></span>
+                <span class="title">포트폴리오 소개</span>
+            </a>
+            <a href="#project-killing" class="nav-item">
+                <img src="images/icon3.png" alt="">
+                <span class="tag">1인 게임 개발</span>
+                <span class="title">Killing Eleven</span>
+            </a>
+            <a href="#project-watching" class="nav-item">
+                <img src="images/icon4.png" alt="">
+                <span class="tag">팀 프로젝트</span>
+                <span class="title">COCO DOOGY</span>
+            </a>
+            <a href="#project-h1k3" class="nav-item">
+                <img src="images/icon5.png" alt="">
+                <span class="tag">온라인 게임잼</span>
+                <span class="title">FAKE HERO</span>
+            </a>
+            <div style="min-width: 50px;"></div>
+        </nav>
+
+        <div id="content-area">
+            <section id="resume" class="content-section active">
+                <h2>📝 이력서</h2>
+                <p>마우스 휠을 아래로 내려보세요. 상단 바가 스르륵 올라갑니다.</p>
+                <div class="mock-content">스크롤 테스트를 위한 긴 영역</div>
+            </section>
+            <section id="cover-letter" class="content-section">
+                <h2>👋 간단 자기소개서</h2>
+                <p>시스템 기획자로서의 강점을 어필하는 공간입니다.</p>
+                <div class="mock-content">스크롤 테스트</div>
+            </section>
+            <section id="project-killing" class="content-section">
+                <h2>⚔️ Killing Eleven</h2>
+                <p>Killing Eleven 코어 루프 설계 및 시스템 기획 상세 문서</p>
+                <div class="mock-content">스크롤 테스트</div>
+            </section>
+            <section id="project-watching" class="content-section">
+                <h2>🕵️‍♂️ The World is Watching</h2>
+                <p>가짜 영웅과 몬스터의 비대칭 정보 시스템을 구현한 컨셉 문서</p>
+                <div class="mock-content">스크롤 테스트</div>
+            </section>
+            <section id="project-h1k3" class="content-section">
+                <h2>🤝 H1K3 인디 팀 프로젝트</h2>
+                <p>H1K3 팀원들과 협업하여 기획을 구체화한 경험</p>
+                <div class="mock-content">스크롤 테스트</div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. 로딩 화면 제어 ---
+        const finishLoading = () => {
+            const loadingText = document.getElementById('loading-text');
+            const startBtn = document.getElementById('start-btn');
+            if (startBtn.classList.contains('ready')) return;
+
+            loadingText.innerHTML = "PRESS START<br>버튼을 누르세요";
+            startBtn.classList.add('ready'); 
+
+            startBtn.addEventListener('click', () => {
+                const introPage = document.getElementById('intro-page');
+                introPage.style.opacity = '0';
+                setTimeout(() => {
+                    introPage.style.display = 'none';
+                    // 로딩이 끝나면 메인 컨텐츠를 보여줍니다.
+                    document.getElementById('portfolio-main').style.display = 'block';
+                }, 500); 
+            });
+        };
+
+        window.addEventListener('load', finishLoading);
+        setTimeout(finishLoading, 1500);
+
+        // --- 2. 스마트 스크롤 (목차 바 숨기기/보이기) ---
+        const contentArea = document.getElementById('content-area');
+        const navBar = document.getElementById('ps4-nav');
+        let lastScrollTop = 0;
+
+        contentArea.addEventListener('scroll', () => {
+            let currentScroll = contentArea.scrollTop;
+            
+            // 아래로 스크롤 & 최상단 50px 이상 내려왔을 때 -> 숨기기
+            if (currentScroll > lastScrollTop && currentScroll > 50) {
+                navBar.classList.add('minimized');
+            } 
+            // 위로 스크롤 -> 다시 보이기
+            else {
+                navBar.classList.remove('minimized');
+            }
+            lastScrollTop = currentScroll;
+        });
+
+        // --- 3. 메뉴 탭 전환 로직 ---
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.content-section');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault(); 
+
+                navItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+
+                const navRect = navBar.getBoundingClientRect();
+                const itemRect = item.getBoundingClientRect();
+                navBar.scrollBy({ left: itemRect.left - navRect.width / 2 + itemRect.width / 2, behavior: 'smooth' });
+
+                const targetId = item.getAttribute('href').replace('#', ''); 
+                
+                sections.forEach(section => {
+                    section.classList.remove('active'); 
+                    if (section.id === targetId) {
+                        section.classList.add('active'); 
+                    }
+                });
+
+                // ★ 조건 4 충족: 새 포트폴리오 진입 시 최상단 복귀 및 목차 바 다시 보이기
+                contentArea.scrollTop = 0;
+                navBar.classList.remove('minimized');
+            });
+        });
+    </script>
+
 </body>
 </html>

@@ -32,9 +32,23 @@
             align-items: center;
             z-index: 9999;
             transition: opacity 0.5s ease-out;
+            padding-bottom: 10vh; /* 화면 높이의 10%만큼 아래에 빈 공간을 만들어 위로 밀어올림 */
+            box-sizing: border-box; /* 패딩때문에 전체 화면 크기가 커지는 것을 방지 */
         }
 
-        #intro-page h1 { font-size: 3rem; letter-spacing: 5px; text-shadow: 0 0 20px rgba(0, 162, 255, 0.5); margin-bottom: 40px; }
+        #intro-page h1 { font-size: 3rem; letter-spacing: 5px; text-shadow: 0 0 20px rgba(0, 162, 255, 0.5); margin-bottom: 20px; text-align: center; }
+        
+        /* 새로 추가된 표어 스타일 */
+        .catchphrase { 
+            font-size: 1.5rem; 
+            color: #e0e0e0; 
+            font-weight: normal; 
+            margin-top: 0; 
+            margin-bottom: 40px; 
+            text-align: center; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            word-break: keep-all; /* 단어 단위로 줄바꿈되도록 설정 */
+        }
 
         .profile-box {
             width: 250px; height: 250px;
@@ -136,9 +150,18 @@
         #content-area::-webkit-scrollbar-thumb { background: #0078d7; border-radius: 4px; }
         #content-area::-webkit-scrollbar-thumb:hover { background: #00a2ff; }
 
+        /* =========================================
+           6. 본문 영역 가로폭 확장
+           ========================================= */        
         .content-section {
-            display: none; padding: 0px 30px 100px; max-width: 900px; margin: 0 auto;
-            min-height: 100%; color: #e0e0e0;
+            display: none; 
+            padding: 40px 30px 100px; /* 상단 여백을 살짝 주어 답답하지 않게 조절 */
+            max-width: 1400px; /* 기존 900px -> 1400px로 대폭 확장 */
+            width: 95%; /* 화면이 좁아져도 좌우 여백 5%를 유지하도록 설정 */
+            margin: 0 auto;
+            min-height: 100%; 
+            color: #e0e0e0;
+            box-sizing: border-box;
         }
 
         .content-section.active { display: block; animation: slideInRight 0.4s ease-out forwards; }
@@ -147,14 +170,185 @@
         @keyframes slideInRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
 
         .mock-content { height: 1500px; border: 1px dashed rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: #888; font-size: 1.2rem; background-color: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 20px; }
+    
+        /* =========================================
+           7. 소개(이력서) 페이지 전용 레이아웃
+           ========================================= */
+           
+        /* 프로필 2단 분할 */
+        .profile-grid { display: grid; grid-template-columns: 300px 1fr; gap: 50px; margin-bottom: 80px; }
+        .profile-sidebar { background: rgba(0,0,0,0.3); padding: 40px 30px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .profile-sidebar img { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid #00a2ff; }
+        .profile-sidebar h3 { margin: 0 0 5px 0; font-size: 1.8rem; color: #fff; }
+        .profile-sidebar p { color: #00a2ff; font-weight: bold; margin: 0 0 20px 0; }
+        .profile-info { text-align: left; margin-top: 20px; font-size: 0.95rem; color: #bbb; line-height: 2; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+        .profile-info strong { color: #fff; display: inline-block; width: 70px; }
+        
+        .profile-content { display: flex; flex-direction: column; justify-content: center; }
+        .profile-content h2 { font-size: 2.2rem; color: #00a2ff; margin-bottom: 15px; border: none; padding: 0; text-shadow: none; }
+        .profile-content .sub-catch { font-size: 1.3rem; color: #fff; margin-bottom: 30px; line-height: 1.6; font-weight: 300; }
+        .core-points { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .point-card { background: rgba(255,255,255,0.05); padding: 20px 25px; border-left: 4px solid #00a2ff; border-radius: 0 8px 8px 0; font-size: 1.1rem; color: #e0e0e0; transition: transform 0.2s; }
+        .point-card:hover { transform: translateX(10px); background: rgba(255,255,255,0.1); }
+        
+        /* 스킬 카드 그리드 */
+        .skills-section { margin-bottom: 80px; }
+        .skills-section h3 { font-size: 1.8rem; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 10px; margin-bottom: 30px; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .skill-card { background: rgba(0,0,0,0.2); padding: 25px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
+        .skill-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .skill-name { font-weight: bold; font-size: 1.2rem; color: #fff; }
+        .skill-stars { color: #00a2ff; font-size: 1.2rem; letter-spacing: 2px; }
+        .skill-desc { font-size: 0.95rem; color: #aaa; line-height: 1.5; margin: 0; }
+
+        /* 상세 역량 (지그재그 교차 레이아웃) */
+        .detail-row { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; margin-bottom: 50px; background: rgba(0,0,0,0.15); padding: 50px; border-radius: 12px; }
+        /* 짝수 번째 줄은 좌우 반전 */
+        .detail-row:nth-child(even) { direction: rtl; } 
+        .detail-row:nth-child(even) > * { direction: ltr; }
+        
+        .detail-text h4 { font-size: 1.5rem; color: #00a2ff; margin-bottom: 20px; line-height: 1.5; word-break: keep-all; }
+        .detail-text p { color: #ccc; line-height: 1.8; font-size: 1.05rem; word-break: keep-all; }
+        .detail-img { width: 100%; height: 350px; background: rgba(255,255,255,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #888; border: 1px dashed rgba(255,255,255,0.2); overflow: hidden; }
+        .detail-img img { width: 100%; height: 100%; object-fit: cover; }
+        /* 프로젝트 미리보기(바로가기) 카드 */
+        .project-shortcut-section { 
+            margin-top: 100px; 
+            padding-top: 60px; 
+            border-top: 1px dashed rgba(255,255,255,0.2); 
+        }
+        .project-shortcut-section h3 { 
+            font-size: 1.8rem; 
+            margin-bottom: 40px; 
+            text-align: center; 
+            color: #fff; 
+        }
+        .shortcut-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+        }
+        .shortcut-card {
+            background: rgba(0,0,0,0.3); border-radius: 12px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            text-decoration: none; color: inherit; display: block;
+            
+            /* 🔥 이미지 위에 태그를 띄우기 위한 핵심 설정 (이 줄을 꼭 추가해 줘!) */
+            position: relative; 
+            /* 썸네일 좌측 상단 겹침 태그 */
+            .shortcut-badge { 
+                position: absolute; top: 0; left: 0; z-index: 2;
+                display: flex; /* 여러 태그를 가로로 나열 */
+            }
+            .shortcut-badge span { 
+                background: rgba(0, 0, 0, 0.85); color: #fff; font-size: 0.75rem; 
+                padding: 6px 12px; font-weight: bold; 
+                border-right: 1px solid rgba(255,255,255,0.1); 
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            /* 파란색으로 강조하고 싶은 태그용 클래스 */
+            .shortcut-badge span.highlight { 
+                background: rgba(0, 120, 215, 0.9); /* 플스 감성 블루 */
+            }
+            
+        }
+        .shortcut-card:hover {
+            transform: translateY(-10px); /* 마우스 올리면 위로 살짝 뜸 */
+            box-shadow: 0 15px 30px rgba(0, 162, 255, 0.3); /* 푸른빛 후광 */
+            border-color: #00a2ff;
+        }
+        .shortcut-img { 
+            width: 100%; 
+            height: 200px; 
+            object-fit: cover; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+        }
+        .shortcut-info { padding: 25px; }
+        .shortcut-info h4 { margin: 0 0 10px 0; font-size: 1.4rem; color: #fff; }
+        .shortcut-info p { margin: 0 0 20px 0; color: #aaa; font-size: 0.95rem; line-height: 1.6; word-break: keep-all; }
+        .shortcut-btn { display: inline-block; color: #00a2ff; font-weight: bold; font-size: 0.9rem; }
+        .shortcut-btn::after { content: ' →'; transition: margin-left 0.2s; }
+        .shortcut-card:hover .shortcut-btn::after { margin-left: 8px; } /* 화살표가 오른쪽으로 밀리는 애니메이션 */
+
+        /* =========================================
+           8. 프로젝트 공통 템플릿 레이아웃
+           ========================================= */
+        
+        /* 1. 프로젝트 헤더 (정보 영역) */
+        .proj-header { display: flex; gap: 40px; margin-bottom: 60px; background: rgba(0,0,0,0.25); padding: 40px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
+        .proj-header-img { flex: 1.5; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .proj-header-img img { width: 100%; height: 100%; object-fit: cover; }
+        .proj-header-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .proj-header-info h3 { margin: 0 0 10px 0; font-size: 2.8rem; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .proj-oneliner { font-size: 1.2rem; color: #00a2ff; font-weight: bold; margin-bottom: 25px; word-break: keep-all; }
+        
+        /* 프로젝트 메타 정보 표(Grid) */
+        .proj-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .meta-item { display: flex; flex-direction: column; }
+        .meta-label { font-size: 0.85rem; color: #888; margin-bottom: 4px; }
+        .meta-value { font-size: 1rem; color: #ddd; font-weight: bold; }
+ 
+        /* 프로젝트 목표 */        
+        .proj-purpose { 
+            background: rgba(0, 162, 255, 0.1); 
+            border-left: 4px solid #00a2ff;     
+            padding: 20px 25px; 
+            border-radius: 0 8px 8px 0; 
+            margin-top: 25px; 
+        }
+        .proj-purpose h4 { color: #00a2ff; font-size: 1.2rem; margin: 0 0 10px 0; font-weight: bold; }
+        .proj-purpose p { color: #fff; line-height: 1.6; margin: 0; word-break: keep-all; font-weight: 500;}
+
+        /* 공통 섹션 타이틀 */
+        .section-title { font-size: 1.8rem; color: #00a2ff; border-left: 5px solid #00a2ff; padding-left: 15px; margin: 60px 0 30px 0; }
+
+        /* 3 & 4. 업무 및 성과 카드 그리드 (항목 추가하기 쉬운 구조) */
+        .card-grid { 
+            display: flex; 
+            gap: 25px; 
+            margin-bottom: 40px; 
+            align-items: stretch; /* 카드들의 세로 높이를 동일하게 맞춤 */
+            flex-wrap: wrap; /* 화면이 좁아지면 아래로 떨어지게 유연성 확보 */
+        }
+        .item-card { 
+            flex: 1; /* 남는 가로 영역을 골고루 나눠 가짐 */
+            min-width: 280px; /* 너무 찌그러지지 않게 최소 너비 방어선 구축 */
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); 
+            border-radius: 12px; overflow: hidden; transition: transform 0.2s; 
+            display: flex; flex-direction: column;
+        }
+        .item-card:hover { transform: translateY(-5px); border-color: rgba(0, 162, 255, 0.5); }
+        .item-card img { width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .item-card-text { padding: 20px; flex-grow: 1; /* 텍스트 양이 달라도 세로 여백을 채워줌 */ }
+        .item-card-text h5 { margin: 0 0 10px 0; color: #fff; font-size: 1.2rem; }
+        .item-card-text p { margin: 0; color: #bbb; font-size: 0.95rem; line-height: 1.6; }
+
+        /* 5. 영상 및 링크 영역 */
+        .media-section { display: flex; gap: 40px; background: rgba(0,0,0,0.4); padding: 40px; border-radius: 16px; margin-bottom: 40px; }
+        .video-container { flex: 1.5; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .video-container iframe { width: 100%; aspect-ratio: 16/9; border: none; }
+        .media-desc { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .media-desc h4 { font-size: 1.5rem; color: #fff; margin: 0 0 15px 0; }
+        .media-desc p { color: #ccc; line-height: 1.7; margin-bottom: 30px; }
+        
+        /* 돋보이는 플레이 버튼 */
+        .play-link-btn { display: inline-block; text-align: center; background: linear-gradient(135deg, #0078d7, #00a2ff); color: #fff; font-weight: bold; font-size: 1.1rem; padding: 18px 30px; border-radius: 8px; text-decoration: none; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0, 162, 255, 0.4); }
+        .play-link-btn:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0, 162, 255, 0.6); }
+
+        /* 6. PDF 뷰어 영역 */
+        .pdf-container { width: 100%; height: 800px; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; overflow: hidden; }
+        .pdf-container iframe { width: 100%; height: 100%; border: none; }
+        .pdf-desc {background: rgba(255, 255, 255, 0.05);padding: 20px;border-radius: 8px;margin-bottom: 25px;color: #ddd;line-height: 1.6;border: 1px solid rgba(255, 255, 255, 0.1);}
     </style>
 </head>
 <body>
 
     <div id="intro-page">
         <h1>PORTFOLIO</h1>
+        <h2 class="catchphrase">설계부터 프로토타이핑까지, 기획의 실현 가능성을 직접 검증하는 기획자 공병용입니다</h2>
         <div class="profile-box" id="start-btn">
-             <img src="images/profile.png" alt="내 프로필 이미지">
+             <img src="images/front_icon.png" alt="내 프로필 이미지">
         </div>
         <div id="loading-text">시스템 부팅 중...</div>
     </div>
@@ -164,26 +358,21 @@
         <nav id="ps4-nav">
             <a href="#resume" class="nav-item active">
                 <img src="images/icon1.png" alt="">
-                <span class="tag"></span>
-                <span class="title">이력 및 자기소개</span>
-            </a>
-            <a href="#cover-letter" class="nav-item">
-                <img src="images/icon2.png" alt="">
-                <span class="tag"></span>
-                <span class="title">포트폴리오 소개</span>
+                <span class="tag"></span>z
+                <span class="title">소개</span> 
             </a>
             <a href="#project-killing" class="nav-item">
-                <img src="images/icon3.png" alt="">
+                <img src="images/icon2.png" alt="">
                 <span class="tag">1인 게임 개발</span>
                 <span class="title">Killing Eleven</span>
             </a>
-            <a href="#project-watching" class="nav-item">
-                <img src="images/icon4.png" alt="">
+            <a href="#project-cocodoogy" class="nav-item">
+                <img src="images/icon3.png" alt="">
                 <span class="tag">팀 프로젝트</span>
                 <span class="title">COCO DOOGY</span>
             </a>
-            <a href="#project-h1k3" class="nav-item">
-                <img src="images/icon5.png" alt="">
+            <a href="#project-fakehero" class="nav-item">
+                <img src="images/icon4.png" alt="">
                 <span class="tag">온라인 게임잼</span>
                 <span class="title">FAKE HERO</span>
             </a>
@@ -192,29 +381,483 @@
 
         <div id="content-area">
             <section id="resume" class="content-section active">
-                <h2>📝 이력서</h2>
-                <p>마우스 휠을 아래로 내려보세요. 상단 바가 스르륵 올라갑니다.</p>
-                <div class="mock-content">스크롤 테스트를 위한 긴 영역</div>
-            </section>
-            <section id="cover-letter" class="content-section">
-                <h2>👋 간단 자기소개서</h2>
-                <p>시스템 기획자로서의 강점을 어필하는 공간입니다.</p>
-                <div class="mock-content">스크롤 테스트</div>
+                
+                <div class="profile-grid">
+                    <div class="profile-sidebar">
+                        <img src="images/profile.jpg" alt="공병용 프로필">
+                        <h3>공병용</h3>
+                        <p>시스템 기획자</p>
+                        <div class="profile-info">
+                            <strong>생년월일</strong> 1996.05.20<br>
+                            <strong>이메일</strong> mgb230325@gmail.com<br>
+                            <strong>연락처</strong> 010-7127-1849
+                        </div>
+                    </div>
+                    
+                    <div class="profile-content">
+                        <h2>"경험을 규칙으로, 기획을 결과로"</h2>
+                        <div class="sub-catch">게임이라는 테마파크를 '규칙'으로 설계하는 기획자입니다.</div>
+                        
+                        <div class="core-points">
+                            <div class="point-card">🎮 추상적인 기획을 구현 가능한 시스템 규칙으로 번역할 수 있습니다.</div>
+                            <div class="point-card">🎯 기획 의도와 개발 우선순위에 맞춰 주어진 과제를 해결할 수 있습니다.</div>
+                            <div class="point-card">📝 협업을 위한 문서 작성에 능하고 프로토타이핑을 할 수 있습니다.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skills-section">
+                    <h3>🛠 보유 기술 (Skills)</h3>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="skill-header">
+                                <span class="skill-name">WebUI (그림AI)</span>
+                                <span class="skill-stars">★★★★☆</span>
+                            </div>
+                            <p class="skill-desc">플러그인을 활용, 복잡한 수준의 AI 그림 생성 가능</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-header">
+                                <span class="skill-name">노션 (Notion)</span>
+                                <span class="skill-stars">★★★★☆</span>
+                            </div>
+                            <p class="skill-desc">페이지 구조화를 통한 기획 문서 작성 및 체계적 정리</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-header">
+                                <span class="skill-name">피그마 (Figma)</span>
+                                <span class="skill-stars">★★★★☆</span>
+                            </div>
+                            <p class="skill-desc">UI 구조 설계 및 와이어프레임 제작 가능</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-header">
+                                <span class="skill-name">Game Maker Studio 2</span>
+                                <span class="skill-stars">★★★★☆</span>
+                            </div>
+                            <p class="skill-desc">기획 검증을 위한 간단한 프로토타입 직접 제작</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-header">
+                                <span class="skill-name">유니티 (Unity)</span>
+                                <span class="skill-stars">★★★☆☆</span>
+                            </div>
+                            <p class="skill-desc">레벨 디자인, 프리팹 수정 등 기초적인 엔진 조작 수행</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-header">
+                                <span class="skill-name">엑셀 / VBA</span>
+                                <span class="skill-stars">★★★☆☆</span>
+                            </div>
+                            <p class="skill-desc">기초 함수 활용 및 데이터 관리를 위한 매크로 제작</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skills-section">
+                    <h3>💡 핵심 역량 상세</h3>
+                    
+                    <div class="detail-row">
+                        <div class="detail-text">
+                            <h4>추상적인 기획을 구현 가능한<br>시스템 규칙으로 번역합니다.</h4>
+                            <p>게임의 어떤 시스템과 환경이 플레이 경험을 만드는지, 다양한 장르의 게임을 직접 만들어보며 실험해왔습니다.<br><br>
+                            이를 바탕으로 기획-테스트-수정의 반복을 전제로 사고하며, 플레이 경험을 기준으로 시스템을 설계하는 데 강점이 있습니다.</p>
+                        </div>
+                        <div class="detail-img">
+                            <img src="images/competency1.png" alt="기획 검증 다이어그램 및 프로토타입">
+                        </div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-text">
+                            <h4>기획 의도와 개발 우선순위에 맞춰<br>주어진 과제를 해결합니다.</h4>
+                            <p>다양한 게임 플레이, 인디 게임 행사, 게임 잼 등에 참여해 기획자 관점에서의 플레이어 관찰 경험을 쌓았습니다.<br><br>
+                            이 경험을 바탕으로 과제를 분석할 때 기획 의도, 일정, 중요도 등 다양한 조건을 종합적으로 고려하여 최적의 해결책을 제시합니다.</p>
+                        </div>
+                        <div class="detail-img">
+                            <img src="images/competency2.png" alt="분석 문서 및 일정표">
+                        </div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-text">
+                            <h4>협업을 위한 문서 작성에 능하고<br>프로토타이핑을 할 수 있습니다.</h4>
+                            <p>기획은 단순한 설명이 아니라 팀원들과 합의를 이끌어내고 구현을 하기 위한 명확한 기준이라고 생각합니다.<br><br>
+                            노션을 활용한 문서화, 피그마와 디자인 툴을 활용한 시스템 시각화 등을 통해 오해 가능성을 줄이고 구현 속도를 가속화합니다.</p>
+                        </div>
+                        <div class="detail-img">
+                            <img src="images/competency3.png" alt="플로우차트 및 시스템 시각화 자료">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-shortcut-section">
+                    <h3>🚀 진행한 프로젝트 살펴보기</h3>
+                    <div class="shortcut-grid">
+                        
+                        <a href="#project-killing" class="shortcut-card" onclick="document.querySelector('.nav-item[href=\'#project-killing\']').click(); return false;">
+                            <div class="shortcut-badge">
+                                <span class="highlight">1인 개발</span>
+                                <span>컨셉 기획</span>
+                                <span>프로토타이핑</span>
+                            </div>
+                            <img src="images/icon2.png" alt="Killing Eleven" class="shortcut-img">
+                            <div class="shortcut-info">
+                                <h4>Killing Eleven</h4>
+                                <p>1인 개발 액션 RPG. 유저에게 짜릿한 타격감과 성취감을 주기 위한 코어 루프 설계와 무기 밸런싱에 집중했습니다.</p>
+                                <span class="shortcut-btn">상세 내용 보기</span>
+                            </div>
+                        </a>
+
+                        <a href="#project-cocodoogy" class="shortcut-card" onclick="document.querySelector('.nav-item[href=\'#project-cocodoogy\']').click(); return false;">
+                            <div class="shortcut-badge">
+                                <span class="highlight">팀 프로젝트</span>
+                                <span>퍼즐 시스템 기획</span>
+                                <span>레벨디자인</span>
+                            </div>
+                            <img src="images/icon3.png" alt="COCO DOOGY" class="shortcut-img">
+                            <div class="shortcut-info">
+                                <h4>COCO DOOGY</h4>
+                                <p>비대칭 정보 시스템을 구현한 독특한 컨셉의 레벨 디자인 및 시스템 기획을 경험했습니다.</p>
+                                <span class="shortcut-btn">상세 내용 보기</span>
+                            </div>
+                        </a>
+
+                        <a href="#project-fakehero" class="shortcut-card" onclick="document.querySelector('.nav-item[href=\'#project-fakehero\']').click(); return false;">
+                            <div class="shortcut-badge">
+                                <span class="highlight">온라인 게임잼</span>
+                                <span>팀 리더</span>
+                                <span>아트 디자인</span>
+                            </div>
+                            <img src="images/icon4.png" alt="FAKE HERO" class="shortcut-img">
+                            <div class="shortcut-info">
+                                <h4>FAKE HERO</h4>
+                                <p>단기간에 팀원들과 협업하여 기획을 구체화하고 코어 플레이를 완성한 경험입니다.</p>
+                                <span class="shortcut-btn">상세 내용 보기</span>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
             </section>
             <section id="project-killing" class="content-section">
-                <h2>⚔️ Killing Eleven</h2>
-                <p>Killing Eleven 코어 루프 설계 및 시스템 기획 상세 문서</p>
-                <div class="mock-content">스크롤 테스트</div>
+                
+                <div class="proj-header">
+                    <div class="proj-header-img">
+                        <img src="images/killing_title.png" alt="Killing Eleven 메인">
+                    </div>
+                    <div class="proj-header-info">
+                        <h3>Killing Eleven</h3>
+                        <div class="proj-oneliner">"풋살 규칙 위에 난투 액션을 얹은 '스포츠 액션 로그라이크'"</div>
+                        
+                        <div class="proj-meta">
+                            <div class="meta-item"><span class="meta-label">장르</span><span class="meta-value">액션, 스포츠, 로그라이크</span></div>
+                            <div class="meta-item"><span class="meta-label">플랫폼</span><span class="meta-value">PC</span></div>
+                            <div class="meta-item"><span class="meta-label">개발 툴</span><span class="meta-value">Game Maker Studio 2</span></div>
+                            <div class="meta-item"><span class="meta-label">개발 기간</span><span class="meta-value">5주</span></div>
+                            <div class="meta-item"><span class="meta-label">참여 인원</span><span class="meta-value">1인 개발</span></div>
+                            <div class="meta-item"><span class="meta-label">담당 업무</span><span class="meta-value">기획, 아트, 프로그래밍 100%</span></div>
+                        </div>
+
+                        <div class="proj-purpose">
+                            <h4>프로젝트 목표: "경험의 성립을 직접 검증하다"</h4>
+                            <p>풋살의 규칙(득점)이 만드는 순간적인 판단력과 난투 액션이 섞였을 때, 흐름이 끊기지 않고 '속도감 있는 전략 액션'으로 성립하는지 머릿속 상상을 넘어 직접 개발을 통해 검증하고자 기획한 프로젝트입니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">🔄 핵심 기획 의도 및 코어 루프</h3>
+                <div class="detail-row" style="margin-bottom: 0;">
+                    <div class="detail-text">
+                        <h4>"단순한 타격이 아닌, 상황이 만드는 전략 액션"</h4>
+                        <p>멀리서 고민하는 전략이 아닌, 적/골/공/규칙이 얽힌 상황 속에서 즉시 승리를 위한 판단을 내리는 경험을 의도했습니다.<br><br>
+                        <strong>[다변화된 목표]</strong> 승리 목표를 '득점'과 '전적 처치'로 나누어 경기 중 빠른 태세 전환 유도<br>
+                        <strong>[오브젝트 활용]</strong> 공을 단순한 득점 도구가 아닌 전투의 수단(태클, 슛)으로 활용<br>
+                        <strong>[로그라이크 성장]</strong> 전투 후 스탯 선택 및 랜덤 장비 획득으로 매 판 다른 플레이 스타일 창출</p>
+                    </div>
+                    <div class="detail-img">
+                        <img src="images/killing_loop.png" alt="전략 액션 코어 루프">
+                    </div>
+                </div>
+
+                <h3 class="section-title">🚨 트러블슈팅: 기획 의도 기반의 문제 해결</h3>
+                <div class="card-grid">
+                    <div class="item-card">
+                        <img src="images/killing_trouble1.png" alt="킥인 문제 해결">
+                        <div class="item-card-text">
+                            <h5>이슈 1. 속도감을 해치는 '킥인(Kick-in)' 규칙 제거</h5>
+                            <p><strong>문제:</strong> 공이 라인 밖으로 나갈 때마다 킥인 판정으로 인해 난투의 속도감과 흐름이 단절됨.<br>
+                            <strong>해결:</strong> 킥인 룰을 과감히 제거하고 아웃라인에 벽을 세워 공이 튕겨 나오도록 수정.<br>
+                            <strong>결과:</strong> 판정 시간이 10초에서 2초로 대폭 단축되었으며, 어디로 튈지 모르는 공의 난반사가 오히려 순간적인 판단(전략성)을 요구하게 되어 기획 의도가 강화됨.</p>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <img src="images/killing_trouble2.png" alt="승패 규칙 밸런싱">
+                        <div class="item-card-text">
+                            <h5>이슈 2. 승리 조건(득점 vs 전멸)의 밸런스 붕괴 현상</h5>
+                            <p><strong>문제:</strong> 테스트 결과, 두 승리 조건의 무게 균형이 맞지 않아 긴장감 있는 골 공방 대신 '무조건 선수 다 때려잡기'로 목표가 변질됨.<br>
+                            <strong>해결:</strong> 문제를 즉시 인지하고 원인을 분석하여 포스트모템으로 문서화. 이후 득점의 메리트를 강화하는 방향으로 추가 시스템 보완 기획.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">🏆 프로젝트 성과</h3>
+                <div class="card-grid">
+                    <div class="item-card">
+                        <img src="images/killing_result1.png" alt="오프라인 전시 및 피드백">
+                        <div class="item-card-text">
+                            <h5>인디게임 행사 전시 및 유저 관찰</h5>
+                            <p>Seoul Game Town 행사에 6시간 동안 프로토타입을 전시했습니다. 현장에서 유저들의 플레이 동선을 직접 관찰하고 피드백을 수집하며, 의도했던 '속도감 있는 전략 액션'이 실제 유저에게 전달되는지 검증했습니다.</p>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <img src="images/killing_result2.png" alt="포스트모템 작성">
+                        <div class="item-card-text">
+                            <h5>개발 회고 및 포스트모템 문서화</h5>
+                            <p>개발 과정에서 발생한 기획적 의사결정(킥인 룰 제거, 승패 조건 밸런싱 등)을 포스트모템으로 기록했습니다. 발생한 문제를 단순히 고치는 데 그치지 않고, '왜 이런 결정을 했는지' 대안과 결과를 문서화하여 실무적 자산으로 남겼습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">▶️ 플레이 영상 및 기획 의도 해설</h3>
+                <div class="media-section">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Killing Eleven 플레이 영상" allowfullscreen></iframe>
+                    </div>
+                    <div class="media-desc">
+                        <h4>"기획이 실제 플레이로 어떻게 구현되었을까?"</h4>
+                        <p>좌측 영상은 풋살 규칙과 난투 액션이 결합된 핵심 코어 루프가 실제 게임 내에서 어떻게 작동하는지 보여주는 플레이 영상입니다.<br><br>
+                        의도적으로 제거된 킥인 시스템 대신 추가된 공의 벽면 난반사와, 다변화된 승리 조건이 만들어내는 순간적인 판단의 재미를 직접 확인해 보시기 바랍니다.</p>
+                        
+                        <a href="https://gx.games/games/w7f1el/killing-eleven/" target="_blank" class="play-link-btn">
+                            🎮 웹에서 직접 플레이하기
+                        </a>
+                    </div>
+                </div>
+
+                <h3 class="section-title">📄 포스트모템 문서 (개발 회고록)</h3>
+                <div class="pdf-desc">
+                    <strong style="color: #fff; font-size: 1.1rem; display: block; margin-bottom: 5px;">포스트모템 요약</strong>
+                    개발 중 발생한 의사결정 과정과 문제 해결 논리를 재현할 수 있도록 정리한 회고 문서입니다. 킥인 시스템 대체 시 발생한 예외 상황 처리와 승패 규칙의 밸런스 개선안을 중점적으로 확인해 주시면 좋습니다.<br>
+                    <span style="color: #00a2ff; font-size: 0.9rem; margin-top: 10px; display: inline-block;">※ 마우스 휠을 내리거나 우측 상단 팝업 버튼을 눌러 전체 문서를 확인하실 수 있습니다.</span>
+                </div>
+
+                <div class="pdf-container">
+                    <iframe src="source_killing/killing_post.pdf" title="Killing Eleven 포스트모템 문서"></iframe>
+                </div>
+
             </section>
-            <section id="project-watching" class="content-section">
-                <h2>🕵️‍♂️ The World is Watching</h2>
-                <p>가짜 영웅과 몬스터의 비대칭 정보 시스템을 구현한 컨셉 문서</p>
-                <div class="mock-content">스크롤 테스트</div>
+            <section id="project-cocodoogy" class="content-section">
+                
+                <div class="proj-header">
+                    <div class="proj-header-img">
+                        <img src="images/coco_title.png" alt="COCO DOOGY 메인">
+                    </div>
+                    <div class="proj-header-info">
+                        <h3>COCO DOOGY</h3>
+                        <div class="proj-oneliner">"움직이며 발견하는 재미, 탐험 중심의 모바일 3D 퍼즐 어드벤처"</div>
+                        
+                        <div class="proj-meta">
+                            <div class="meta-item"><span class="meta-label">장르</span><span class="meta-value">모바일 3D 퍼즐 어드벤처</span></div>
+                            <div class="meta-item"><span class="meta-label">플랫폼</span><span class="meta-value">Mobile (Android/iOS)</span></div>
+                            <div class="meta-item"><span class="meta-label">개발 툴</span><span class="meta-value">UNITY</span></div>
+                            <div class="meta-item"><span class="meta-label">개발 기간</span><span class="meta-value">7주</span></div>
+                            <div class="meta-item"><span class="meta-label">참여 인원</span><span class="meta-value">기획4, 프로그래밍6</span></div>
+                            <div class="meta-item"><span class="meta-label">담당 업무</span><span class="meta-value">시스템 기획, 레벨 디자인</span></div>
+                        </div>
+
+                        <div class="proj-purpose">
+                            <h4>프로젝트 목표: "추상적인 기획을 구현 가능한 시스템으로 번역하다"</h4>
+                            <p>'누구나 쉽게 즐기는 탐험 퍼즐'이라는 팀의 추상적인 기획 목표를 달성하기 위해, 조작(가상 조이스틱), 상호작용(기믹), 보상(수집 요소)의 규칙을 일관성 있게 설계하고 이를 오해 없이 개발로 이어지도록 문서화하는 역할을 수행했습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">🔄 주요 기획 의도 및 플레이 설명</h3>
+                <div class="detail-row" style="margin-bottom: 0;">
+                    <div class="detail-text">
+                        <h4>"탐험 경험을 정의하고, 퍼즐 시스템을 설계하다"</h4>
+                        <p>단순한 퍼즐 풀이에서 끝나지 않고, 플레이어가 직접 '움직이며 발견하는 재미'를 느끼도록 탐험의 경험을 우선적으로 정의했습니다.<br><br>
+                        <strong>[자유로운 이동]</strong> 터치 조작 기반의 자유 이동을 채택하여 탐색의 제약을 최소화<br>
+                        <strong>[직관적인 상호작용]</strong> 이동 자체를 퍼즐의 코어 기믹으로 활용하여 학습 비용을 낮춤<br>
+                        <strong>[명확한 목표]</strong> 골(Goal)을 찾아가는 길 찾기 중심의 규칙과 수집 요소를 통한 리플레이 동기 부여</p>
+                    </div>
+                    <div class="detail-img">
+                        <img src="images/coco_loop.png" alt="코코두기 탐험 시스템">
+                    </div>
+                </div>
+
+                <h3 class="section-title">🚨 핵심 경험: 일정 방어와 구조적 문서화</h3>
+                <div class="card-grid">
+                    <div class="item-card">
+                        <img src="images/coco_crisis.png" alt="레벨디자인 우회">
+                        <div class="item-card-text">
+                            <h5>이슈 해결: 레벨 디자인을 통한 일정 방어</h5>
+                            <p><strong>상황:</strong> 프로젝트 중반, 전 구간에 쓰이는 핵심 퍼즐 시스템에 치명적인 버그 발생.<br>
+                            <strong>해결:</strong> 프로그래머에게 코어 기능 수정만 요청하여 개발 병목을 줄이고, 기획자인 제가 직접 <strong>레벨 디자인을 수정하여 버그 구간을 우회 및 은닉</strong>했습니다. 결과적으로 마일스톤 지연 없이 전체 개발 흐름을 유지할 수 있었습니다.</p>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <img src="images/coco_document.png" alt="시각화 및 구조화 기획서">
+                        <div class="item-card-text">
+                            <h5>협업: '합의'를 위한 시각화 문서 작성</h5>
+                            <p><strong>상황:</strong> 직군 간의 오해를 줄이고 빠른 구현을 이끌어내야 함.<br>
+                            <strong>해결:</strong> 노션과 플로우차트를 활용해 시스템 조직도를 한눈에 파악할 수 있도록 도식화했습니다. 개별 기믹 로직과 공통 규칙을 분리하여 작성하고, 복잡한 UI 흐름은 피그마로 시각화하여 프로그래머의 작업 속도를 가속화했습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">🏆 프로젝트 성과</h3>
+                <div class="card-grid">
+                    <div class="item-card">
+                        <img src="images/coco_result1.png" alt="팀원 평가">
+                        <div class="item-card-text">
+                            <h5>"끝까지 책임지는 기획자" - 긍정적 동료 평가</h5>
+                            <p>버그 발생 시 남 탓을 하거나 일정을 미루지 않고, 기획자가 할 수 있는 최선의 우회책(레벨 디자인 수정)을 즉각 실행한 점에 대해 팀원들로부터 "문제를 미루지 않고 끝까지 챙긴다", "신뢰할 수 있다"는 높은 평가를 받았습니다.</p>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <img src="images/coco_result2.png" alt="포스트모템 및 템플릿화">
+                        <div class="item-card-text">
+                            <h5>포스트모템 작성 및 협업 기준 확립</h5>
+                            <p>프로젝트 종료 후, 개발 중 발생한 의사결정 이슈와 소통의 문제점을 포스트모템으로 구조화했습니다. 이를 바탕으로 효과가 있었던 시각화 템플릿과 기획서 공유 방식을 정리하여 다음 프로젝트에서도 활용 가능한 실무적 자산으로 남겼습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">▶️ 플레이 영상 및 기획 의도 해설</h3>
+                <div class="media-section">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="COCO DOOGY 플레이 영상" allowfullscreen></iframe>
+                    </div>
+                    <div class="media-desc">
+                        <h4>"탐험과 퍼즐이 자연스럽게 교차하는 레벨"</h4>
+                        <p>좌측 영상은 기획서에 작성된 '이동 중심의 상호작용'과 '길 찾기 기믹'이 레벨 디자인을 통해 실제 모바일 환경에서 어떻게 구현되었는지 보여줍니다.<br><br>
+                        가상 조이스틱 하나만으로 퍼즐을 풀고 맵을 탐험하는 직관적인 흐름과, 버그를 우회하기 위해 전략적으로 재배치한 레벨 디자인의 디테일을 영상에서 확인하실 수 있습니다.</p>
+                        </div>
+                </div>
+
+                <h3 class="section-title">📄 협업 문서 및 포스트모템 (PDF)</h3>
+                <div class="pdf-desc">
+                    <strong style="color: #fff; font-size: 1.1rem; display: block; margin-bottom: 5px;">문서 열람 안내</strong>
+                    왼쪽은 개발자와의 오해를 줄이기 위해 <strong>객체 속성(통과, 고정, 상호작용 등)을 표로 구조화한 시스템 기획서</strong>이며, 오른쪽은 프로젝트 완료 후 <strong>승패 규칙 이슈와 팀 협업 과정을 회고한 포스트모템</strong>입니다.<br>
+                    <span style="color: #00a2ff; font-size: 0.9rem; margin-top: 10px; display: inline-block;">※ 각 뷰어 안에서 마우스 휠을 내리면 전체 문서를 확인하실 수 있습니다.</span>
+                </div>
+
+                <div style="display: flex; gap: 30px; flex-wrap: wrap; margin-bottom: 50px;">
+                    <div class="pdf-container" style="flex: 1; min-width: 45%; height: 700px; box-shadow: 0 10px 20px rgba(0,0,0,0.5);">
+                        <iframe src="source_coco/coco_doc.pdf" title="코코두기 시스템 기획서"></iframe>
+                    </div>
+                </div>
+
             </section>
-            <section id="project-h1k3" class="content-section">
-                <h2>🤝 H1K3 인디 팀 프로젝트</h2>
-                <p>H1K3 팀원들과 협업하여 기획을 구체화한 경험</p>
-                <div class="mock-content">스크롤 테스트</div>
+            <section id="project-fakehero" class="content-section">
+                
+                <div class="proj-header">
+                    <div class="proj-header-img">
+                        <img src="images/fakehero_title.png" alt="FAKE HERO 메인">
+                    </div>
+                    <div class="proj-header-info">
+                        <h3>FAKE HERO</h3>
+                        <div class="proj-oneliner">"단기간에 핵심 재미를 증명해낸 온라인 게임잼 프로젝트"</div>
+                        
+                        <div class="proj-meta">
+                            <div class="meta-item"><span class="meta-label">장르</span><span class="meta-value">캐주얼 액션 / 아케이드</span></div>
+                            <div class="meta-item"><span class="meta-label">플랫폼</span><span class="meta-value">PC (Web)</span></div>
+                            <div class="meta-item"><span class="meta-label">개발 툴</span><span class="meta-value">UNITY</span></div>
+                            <div class="meta-item"><span class="meta-label">개발 기간</span><span class="meta-value">온라인 게임잼 (단기)</span></div>
+                            <div class="meta-item"><span class="meta-label">참여 인원</span><span class="meta-value">H1K3 팀 프로젝트</span></div>
+                            <div class="meta-item"><span class="meta-label">담당 업무</span><span class="meta-value">팀 리더, 핵심 기획, 아트 디자인</span></div>
+                        </div>
+
+                        <div class="proj-purpose">
+                            <h4>프로젝트 목표: "제한된 환경 속, 선택과 집중으로 코어 루프 완성"</h4>
+                            <p>온라인 게임잼이라는 극도로 제한된 시간과 리소스 환경에서, 팀 리더로서 아이디어를 빠르게 구체화하고 버릴 것은 과감히 버리며 '작동하는 결과물(Playable Build)'을 완성해 내는 것을 최우선 목표로 삼았습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">🔄 주요 기획 의도 및 플레이 설명</h3>
+                <div class="detail-row" style="margin-bottom: 0;">
+                    <div class="detail-text">
+                        <h4>"직관적인 규칙으로 빠르게 재미를 전달하다"</h4>
+                        <p>단기간에 유저를 몰입시켜야 하는 게임잼의 특성에 맞춰, 학습 비용이 거의 없는 직관적인 코어 플레이를 설계했습니다.<br><br>
+                        <strong>[명확한 컨셉]</strong> '가짜 영웅'이라는 테마를 플레이어가 즉각적으로 인지할 수 있는 기믹으로 구현<br>
+                        <strong>[압축된 텐션]</strong> 복잡한 시스템을 배제하고, 짧은 시간 안에 클라이맥스를 경험할 수 있도록 레벨과 웨이브(Wave) 디자인을 압축<br>
+                        <strong>[비주얼 피드백]</strong> 기획 의도가 플레이어에게 확실히 닿도록, 직접 아트 디자인을 수행하여 시각적 타격감과 피드백 강화</p>
+                    </div>
+                    <div class="detail-img">
+                        <img src="images/fakehero_loop.png" alt="FAKE HERO 코어 플레이">
+                    </div>
+                </div>
+
+                <h3 class="section-title">🚨 핵심 경험: 팀 리딩과 실무적 유연성</h3>
+                <div class="card-grid">
+                    <div class="item-card">
+                        <img src="images/fakehero_leadership.png" alt="선택과 집중">
+                        <div class="item-card-text">
+                            <h5>팀 리더: 스펙 아웃(Spec-Out)을 통한 기획 구체화</h5>
+                            <p><strong>상황:</strong> 게임잼 초반, 쏟아지는 아이디어로 인해 개발 범위(Scope)가 기하급수적으로 팽창했습니다.<br>
+                            <strong>해결:</strong> 팀 리더로서 핵심 재미(가짜 영웅 컨셉)와 직결되지 않는 부가 시스템을 과감하게 스펙 아웃 시켰습니다. 구현 가능성을 기준으로 개발 우선순위를 재조정하여 팀원들의 집중력을 코어 플레이로 모았습니다.</p>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <img src="images/fakehero_art.png" alt="아트 디자인 수행">
+                        <div class="item-card-text">
+                            <h5>유연성: 기획의 구멍을 메우는 아트 디자인</h5>
+                            <p><strong>상황:</strong> 아트 리소스 제작 인력이 부족하여 개발 속도가 지연될 위기에 처했습니다.<br>
+                            <strong>해결:</strong> 단순 기획 문서 작성에 머물지 않고, 피그마와 클립스튜디오 등 사용 가능한 툴을 적극 활용하여 <strong>직접 아트 디자인 및 UI 소스를 제작</strong>해 프로그래머에게 전달했습니다. 직군의 경계를 넘나드는 유연함으로 프로젝트 병목을 해소했습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">🏆 프로젝트 성과</h3>
+                <div class="card-grid">
+                    <div class="item-card">
+                        <img src="images/fakehero_result1.png" alt="빌드 제출 완료">
+                        <div class="item-card-text">
+                            <h5>완성된 프로토타입(Playable Build) 도출</h5>
+                            <p>기획만 번지르르한 미완성작이 아닌, 처음부터 끝까지 코어 루프가 정상적으로 작동하는 완성도 높은 빌드를 제출 기한 내에 성공적으로 만들어냈습니다. 이는 '기획을 결과로 만든다'는 저의 작업 모토를 증명하는 결과물입니다.</p>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <img src="images/fakehero_result2.png" alt="온라인 협업 경험">
+                        <div class="item-card-text">
+                            <h5>비대면 환경에서의 빠르고 효율적인 합의 도출</h5>
+                            <p>온라인 환경이라는 소통의 제약 속에서도 디스코드와 노션을 활용한 체계적인 정보 공유를 주도했습니다. 오해가 발생하기 쉬운 텍스트 소통을 넘어, 시각화된 자료를 빠르게 제시하며 팀원 간의 완벽한 합의를 이끌어낸 협업 경험을 쌓았습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">▶️ 플레이 영상 및 기획 의도 해설</h3>
+                <div class="media-section">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="FAKE HERO 플레이 영상" allowfullscreen></iframe>
+                    </div>
+                    <div class="media-desc">
+                        <h4>"기획과 아트가 결합된 즉각적인 피드백"</h4>
+                        <p>좌측 영상은 게임잼 기간 동안 팀원들과 협력하여 도출해낸 최종 플레이 영상입니다.<br><br>
+                        제가 직접 기획하고 디자인한 UI와 아트 소스가 게임 내에서 어떻게 상호작용하는지, 그리고 '가짜 영웅'이라는 테마가 실제 전투 플레이 흐름 속에서 어떤 속도감으로 전개되는지 확인하실 수 있습니다.</p>
+                    
+                        <a href="https://mgb230325.itch.io/fakehero01" target="_blank" class="play-link-btn">
+                            🎮 웹에서 직접 플레이하기
+                        </a>
+                    </div>
+                    
+                </div>
+
+                <h3 class="section-title">📄 게임잼 기획서 및 결과 보고서 (PDF)</h3>
+                <div class="pdf-desc">
+                    <strong style="color: #fff; font-size: 1.1rem; display: block; margin-bottom: 5px;">문서 열람 안내</strong>
+                    게임잼 당시 팀원들과의 빠른 싱크(Sync)를 위해 작성했던 <strong>원페이지(One-Page) 핵심 기획서</strong>와 결과 보고서입니다. 긴 줄글보다는 직관적인 이미지와 플로우차트를 활용해 단기간에 팀원들을 한 방향으로 이끌었던 소통의 흔적을 확인하실 수 있습니다.<br>
+                    <span style="color: #00a2ff; font-size: 0.9rem; margin-top: 10px; display: inline-block;">※ 뷰어 안에서 마우스 휠을 내리면 전체 문서를 확인하실 수 있습니다.</span>
+                </div>
+
+                <div class="pdf-container">
+                    <iframe src="source_h1k3/fakehero_doc.pdf" title="FAKE HERO 기획 문서"></iframe>
+                </div>
+
             </section>
         </div>
     </div>
@@ -243,23 +886,17 @@
         window.addEventListener('load', finishLoading);
         setTimeout(finishLoading, 1500);
 
-        // --- 2. 스마트 스크롤 (목차 바 숨기기/보이기) ---
+        // --- 2. 스마트 스크롤 (수정판: 최상단에서만 보이기) ---
         const contentArea = document.getElementById('content-area');
         const navBar = document.getElementById('ps4-nav');
-        let lastScrollTop = 0;
 
         contentArea.addEventListener('scroll', () => {
-            let currentScroll = contentArea.scrollTop;
-            
-            // 아래로 스크롤 & 최상단 50px 이상 내려왔을 때 -> 숨기기
-            if (currentScroll > lastScrollTop && currentScroll > 50) {
+            // 스크롤이 맨 위(20px 이내)일 때만 나타나고, 그 밑으로 내려가면 무조건 숨깁니다.
+            if (contentArea.scrollTop > 20) {
                 navBar.classList.add('minimized');
-            } 
-            // 위로 스크롤 -> 다시 보이기
-            else {
+            } else {
                 navBar.classList.remove('minimized');
             }
-            lastScrollTop = currentScroll;
         });
 
         // --- 3. 메뉴 탭 전환 로직 ---

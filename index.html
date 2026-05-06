@@ -602,7 +602,33 @@
             color: var(--body-light);
             word-break: keep-all;
         }
-
+        /* Contact line - 페이지 푸터 역할 */
+        .contact-line {
+            margin-top: var(--s-xxl);
+            padding-top: var(--s-xl);
+            border-top: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: var(--s-md);
+            flex-wrap: wrap;
+        }
+        .contact-line .eyebrow {
+            margin-bottom: 0;
+        }
+        .contact-line .contact-email {
+            font-size: 22px;
+            font-weight: 300;
+            line-height: 1.25;
+            letter-spacing: 0.1px;
+            color: var(--ink);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+        .contact-line .contact-email:hover {
+            color: var(--link-light);
+            text-decoration: underline;
+        }
+        
         /* =========================================================
            Game-tile Rail
            ========================================================= */
@@ -841,6 +867,7 @@
             letter-spacing: 0.1px;
         }
 
+        
         /* =========================================================
            Pull Quote
            ========================================================= */
@@ -975,170 +1002,34 @@
 
         <div id="content-area">
 
-            <!-- ============================================================
-                 RESUME / 소개
+                <!-- ============================================================
+                 RESUME / 소개  ── 간결판 (3 챕터)
+                 1. (검정) 자기소개 hero + 3가지 원칙 요약
+                 2. (파랑) 프로젝트 보러가기 + game-rail
+                 3. (흰색) 보유 기술 (skill-strip)
                  ============================================================ -->
             <section id="resume" class="content-section active">
 
-                <!-- Ch1: 검정 - 프로필 hero -->
+                <!-- Ch1: 검정 - 자기소개 (간결판: 한 줄 메시지 + 부연 2-3줄) -->
                 <div class="chapter chapter-dark">
-                    <div class="chapter-inner">
-                        <div class="editorial-hero reverse">
-                            <div class="editorial-text">
-                                <span class="eyebrow">ABOUT</span>
-                                <h2>"경험을 설계하고,<br>직접 검증합니다"</h2>
-                                <p>기획 의도가 작동하는지, 만들어보고 고치는 과정을 반복해온 기획자입니다.</p>
-                            </div>
-                            <div>
-                                <div class="profile-card">
-                                    <img class="photo" src="images/profile.jpg" alt="공병용 프로필">
-                                    <div class="name">공병용</div>
-                                    <div class="role">시스템 기획자 지망</div>
-                                    <div class="info">
-                                        <div class="info-row"><span class="k">생년월일</span><span>1996.05.20</span></div>
-                                        <div class="info-row"><span class="k">이메일</span><span>mgb230325@gmail.com</span></div>
-                                        <div class="info-row"><span class="k">연락처</span><span>010-7127-1849</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ch2: 파랑 - Action moment -->
-                <div class="chapter chapter-blue">
                     <div class="chapter-inner">
                         <div class="solo-statement">
-                            <span class="eyebrow">CORE PHILOSOPHY</span>
-                            <h2>저는 세 가지 원칙으로 일합니다.</h2>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ch3: 검정 - 원칙 1 -->
-                <div class="chapter chapter-dark">
-                    <div class="chapter-inner">
-                        <div class="solo-statement" style="text-align: left;">
-                            <span class="eyebrow">PRINCIPLE 01</span>
-                            <h2>"왜 이 시스템이어야 하는가"를<br>먼저 정의하고, 그 기준으로 설계합니다.</h2>
-                        </div>
-                        <div style="max-width: var(--column-narrow); margin-top: var(--s-xl);">
-                            <p class="body-md" style="color: var(--body-dark);">
-                                킬링 일레븐에서는 '속도감 있는 액션'을 핵심 의도로 정의하고, 그 기준에 맞지 않는 킥인 룰을 제거했습니다.
-                                코코두기에서는 '이동이 곧 퍼즐'이라는 기준으로, 모든 오브젝트의 상호작용을 이동 상호작용 안에서 설계했습니다.
-                            </p>
-                            <p class="body-md" style="color: var(--body-dark); margin-top: var(--s-md);">
-                                기획 의도가 명확해야 개발 중 문제가 생겼을 때 판단 기준이 흔들리지 않는다고 생각합니다.
-                            </p>
-                            <p class="body-md" style="color: var(--on-dark); margin-top: var(--s-lg); font-weight: 500;">
-                                저는 핵심 기획 의도를 기준으로 시스템의 우선순위를 판단하고, 일관된 규칙 체계를 설계할 수 있습니다.
+                            <span class="eyebrow">ABOUT — 공병용 / 시스템·컨텐츠 기획 지망</span>
+                             <h2>"플레이 경험과 기획 의도를<br>중심에 두고 설계합니다"</h2>
+                            <p class="body-md" style="color: var(--body-dark); max-width: 720px; margin: 0 auto;">
+                                스타 유즈맵부터 유니티까지 거치며 시스템을 직접 설계하고 만들어본 경험을 통해,<br>기획 의도가 실제 플레이로 어떻게 전달되는지 체득해왔습니다.<br>의도한 경험을 시스템으로 구현하는 데 강점이 있는 신입 기획자입니다.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Ch4: 흰색 - 원칙 2 + 이미지 -->
-                <div class="chapter chapter-light">
-                    <div class="chapter-inner">
-                        <div class="editorial-hero">
-                            <div class="editorial-text">
-                                <span class="eyebrow">PRINCIPLE 02</span>
-                                <h2>기획서 위의 재미가 실제로 작동하는지,<br>만들어서 확인해왔습니다.</h2>
-                                <p>유즈맵, 플래시, RPG 메이커, 게임 메이커를 거치며 게임을 직접 만들어보는 방식으로 기획을 배워왔습니다.</p>
-                                <p>킬링 일레븐은 그 연장선에서 5주간 직접 개발한 프로토타입이고, 완성 후에는 인디 행사에 전시해 유저 반응을 관찰하고 분석했습니다.</p>
-                                <p>기획은 실제로 만들며 검증을 거칠때, 더욱 완성도가 높아진다 생각합니다.</p>
-                                <p><strong>저는 기획 단계에서 끝나지 않고 기획을 실물로 검증하는 실행력을 가졌습니다.</strong></p>
-                            </div>
-                            <div>
-                                <div class="visual">
-                                    <img src="images/competency2.png" alt="과거 제작한 게임들 스크린샷">
-                                </div>
-                                <div class="visual-caption">— 과거 제작한 게임들 스크린샷</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ch5: 검정 - 원칙 3 + 이미지 좌측 -->
-                <div class="chapter chapter-dark">
-                    <div class="chapter-inner">
-                        <div class="editorial-hero reverse">
-                            <div>
-                                <div class="visual">
-                                    <img src="images/competency3.png" alt="작성한 기획서">
-                                </div>
-                                <div class="visual-caption">— 작성한 퍼즐 기믹 기획서</div>
-                            </div>
-                            <div class="editorial-text">
-                                <span class="eyebrow">PRINCIPLE 03</span>
-                                <h2>개발자가 해석할 필요 없는<br>기획서를 지향합니다.</h2>
-                                <p>코코두기에서는 오브젝트 속성을 표로, 상호작용 로직을 시각 이미지로 정리해 전달했습니다.</p>
-                                <p>그럼에도 전달되지 않는 부분이 있다는 걸 배웠고, 초기 리뷰 절차의 필요성을 회고로 정리했습니다.</p>
-                                <p>기획서를 잘 쓰는 것만큼, 그 기획서가 통했는지 협의하는 과정도 중요하다고 생각합니다.</p>
-                                <p><strong>저는 개발자가 바로 구현에 들어갈 수 있는 구조화된 기획 문서를 작성하고, 협업 과정을 개선할 수 있습니다.</strong></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ch6: 흰색 - 보유 기술 (skill-strip) -->
-                <div class="chapter chapter-light">
-                    <div class="chapter-inner">
-                        <div class="solo-statement" style="text-align: left; margin: 0 0 var(--s-xl) 0;">
-                            <span class="eyebrow">SKILLS</span>
-                            <h2 style="font-size: 35px;">보유 기술</h2>
-                        </div>
-                        <div class="skill-strip">
-                            <div class="skill-row">
-                                <div class="skill-name">노션 (Notion)</div>
-                                <div class="skill-meter">★★★★☆</div>
-                                <div class="skill-desc">페이지 구조화를 통한 기획 문서 작성 및 체계적 정리</div>
-                            </div>
-                            <div class="skill-row">
-                                <div class="skill-name">피그마 (Figma)</div>
-                                <div class="skill-meter">★★★★☆</div>
-                                <div class="skill-desc">UI 구조 설계 및 와이어프레임 제작 가능</div>
-                            </div>
-                            <div class="skill-row">
-                                <div class="skill-name">Game Maker Studio 2</div>
-                                <div class="skill-meter">★★★★☆</div>
-                                <div class="skill-desc">기획 검증을 위한 간단한 프로토타입 직접 제작</div>
-                            </div>
-                            <div class="skill-row">
-                                <div class="skill-name">유니티 (Unity)</div>
-                                <div class="skill-meter">★★★☆☆</div>
-                                <div class="skill-desc">레벨 디자인, 프리팹 수정 등 기초적인 엔진 조작 수행</div>
-                            </div>
-                            <div class="skill-row">
-                                <div class="skill-name">엑셀 / VBA</div>
-                                <div class="skill-meter">★★★☆☆</div>
-                                <div class="skill-desc">기초 함수 활용 및 데이터 관리를 위한 매크로 제작</div>
-                            </div>
-                            <div class="skill-row">
-                                <div class="skill-name">WebUI (그림AI)</div>
-                                <div class="skill-meter">★★★★☆</div>
-                                <div class="skill-desc">플러그인을 활용, 복잡한 수준의 AI 그림 생성 가능</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ch7: 파랑 - 프로젝트 보러가기 CTA -->
+                <!-- Ch2: 파랑 - 프로젝트 보러가기 + game-rail -->
                 <div class="chapter chapter-blue">
                     <div class="chapter-inner">
-                        <div class="solo-statement">
+                        <div class="solo-statement" style="margin-bottom: var(--s-xxl);">
                             <span class="eyebrow">PROJECTS</span>
-                            <h2>3개의 프로젝트로<br>이 원칙들을 검증해왔습니다.</h2>
-                            <div class="btn-group" style="justify-content: center;">
-                                <a href="#project-killing" class="btn btn-on-blue js-nav-jump" data-target="project-killing">프로젝트 보러가기</a>
-                            </div>
+                            <h2>명확한 기획 의도를<br>구현하고 실험한 3개의 프로젝트</h2>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Ch8: 검정 - 게임 타일 rail -->
-                <div class="chapter chapter-dark">
-                    <div class="chapter-inner">
                         <div class="game-rail">
                             <a href="#project-killing" class="game-card js-nav-jump" data-target="project-killing">
                                 <div class="badges">
@@ -1182,6 +1073,55 @@
                                 </div>
                             </a>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Ch3: 흰색 - 보유 기술 (skill-strip) -->
+                <div class="chapter chapter-light">
+                    <div class="chapter-inner">
+                        <div class="solo-statement" style="text-align: left; margin: 0 0 var(--s-xl) 0;">
+                            <span class="eyebrow">SKILLS</span>
+                            <h2 style="font-size: 35px;">보유 기술</h2>
+                        </div>
+                        <div class="skill-strip">
+                            <div class="skill-row">
+                                <div class="skill-name">노션 (Notion)</div>
+                                <div class="skill-meter">★★★★☆</div>
+                                <div class="skill-desc">페이지 구조화를 통한 기획 문서 작성 및 체계적 정리</div>
+                            </div>
+                            <div class="skill-row">
+                                <div class="skill-name">피그마 (Figma)</div>
+                                <div class="skill-meter">★★★★☆</div>
+                                <div class="skill-desc">UI 구조 설계 및 와이어프레임 제작 가능</div>
+                            </div>
+                            <div class="skill-row">
+                                <div class="skill-name">Game Maker Studio 2</div>
+                                <div class="skill-meter">★★★★☆</div>
+                                <div class="skill-desc">기획 검증을 위한 간단한 프로토타입 직접 제작</div>
+                            </div>
+                            <div class="skill-row">
+                                <div class="skill-name">유니티 (Unity)</div>
+                                <div class="skill-meter">★★★☆☆</div>
+                                <div class="skill-desc">레벨 디자인, 프리팹 수정 등 기초적인 엔진 조작 수행</div>
+                            </div>
+                            <div class="skill-row">
+                                <div class="skill-name">엑셀 / VBA</div>
+                                <div class="skill-meter">★★★☆☆</div>
+                                <div class="skill-desc">기초 함수 활용 및 데이터 관리를 위한 매크로 제작</div>
+                            </div>
+                            <div class="skill-row">
+                                <div class="skill-name">WebUI (그림AI)</div>
+                                <div class="skill-meter">★★★★☆</div>
+                                <div class="skill-desc">플러그인을 활용, 복잡한 수준의 AI 그림 생성 가능</div>
+                            </div>
+                        </div>
+
+                        <!-- 연락처 - 페이지 푸터 역할 -->
+                        <div class="contact-line">
+                            <span class="eyebrow">CONTACT</span>
+                            <a href="mailto:mgb230325@gmail.com" class="contact-email">mgb230325@gmail.com</a>
+                        </div>
+                                                
                     </div>
                 </div>
 
